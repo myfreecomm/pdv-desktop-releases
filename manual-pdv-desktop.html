@@ -1,0 +1,1697 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Manual do PDV Desktop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --surface-2: #f5f5f5;
+    --stroke: #e8e8e9;
+    --stroke-strong: #b9b7bf;
+    --title: #162034;
+    --text: #393c4d;
+    --label: #868491;
+    --accent: #da3063;
+    --accent-ink: #9d1a44;
+    --accent-soft: #ffecf2;
+    --link: #007fb0;
+    --link-soft: #edf7ff;
+    --ok: #099b56;
+    --ok-soft: #eafff5;
+    --warn: #c77d10;
+    --warn-soft: #fff1dc;
+    --danger: #b82f2f;
+    --danger-soft: #ffebeb;
+    --shadow: 0 1px 2px rgba(22, 32, 52, .06), 0 8px 24px rgba(22, 32, 52, .05);
+    --font-display: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
+    --font-body: 'Instrument Sans', 'Segoe UI', system-ui, sans-serif;
+    --font-mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #090e18;
+      --surface: #0f1826;
+      --surface-2: #162034;
+      --stroke: #393c4d;
+      --stroke-strong: #5c5c6b;
+      --title: #ffffff;
+      --text: #e8e8e9;
+      --label: #b9b7bf;
+      --accent: #e05b83;
+      --accent-ink: #ff9fbc;
+      --accent-soft: #3d0d1c;
+      --link: #33b9e1;
+      --link-soft: #0f2433;
+      --ok: #3dc986;
+      --ok-soft: #092723;
+      --warn: #f5ad43;
+      --warn-soft: #2b2217;
+      --danger: #e56161;
+      --danger-soft: #28141c;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 8px 24px rgba(0, 0, 0, .35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #090e18;
+    --surface: #0f1826;
+    --surface-2: #162034;
+    --stroke: #393c4d;
+    --stroke-strong: #5c5c6b;
+    --title: #ffffff;
+    --text: #e8e8e9;
+    --label: #b9b7bf;
+    --accent: #e05b83;
+    --accent-ink: #ff9fbc;
+    --accent-soft: #3d0d1c;
+    --link: #33b9e1;
+    --link-soft: #0f2433;
+    --ok: #3dc986;
+    --ok-soft: #092723;
+    --warn: #f5ad43;
+    --warn-soft: #2b2217;
+    --danger: #e56161;
+    --danger-soft: #28141c;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 8px 24px rgba(0, 0, 0, .35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--link); }
+
+  /* ---------- shell ---------- */
+
+  .masthead {
+    background: var(--surface);
+    border-bottom: 1px solid var(--stroke);
+  }
+
+  .masthead-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 40px 24px 36px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 5vw, 44px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    color: var(--title);
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+
+  .lede {
+    max-width: 62ch;
+    font-size: 17px;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid var(--stroke);
+    font-size: 13px;
+    color: var(--label);
+  }
+
+  .meta b {
+    color: var(--title);
+    font-weight: 600;
+  }
+
+  .layout {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px 96px;
+    display: grid;
+    grid-template-columns: 236px minmax(0, 1fr);
+    gap: 56px;
+    align-items: start;
+  }
+
+  /* ---------- index ---------- */
+
+  nav.index {
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 24px);
+    padding-top: 40px;
+  }
+
+  nav.index h2 {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--label);
+    margin: 0 0 14px;
+  }
+
+  nav.index ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    counter-reset: idx;
+  }
+
+  nav.index a {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    color: var(--text);
+    text-decoration: none;
+    line-height: 1.35;
+  }
+
+  nav.index a:hover { background: var(--surface-2); color: var(--title); }
+  nav.index a:focus-visible { outline: 2px solid var(--link); outline-offset: 1px; }
+
+  nav.index a i {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--label);
+    padding-top: 2px;
+  }
+
+  /* ---------- sections ---------- */
+
+  main { padding-top: 40px; min-width: 0; }
+
+  section {
+    scroll-margin-top: 24px;
+    padding-block: 40px 8px;
+    border-top: 1px solid var(--stroke);
+  }
+
+  section:first-of-type { border-top: 0; padding-top: 8px; }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .sec-num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: .04em;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 3vw, 27px);
+    font-weight: 700;
+    letter-spacing: -.015em;
+    color: var(--title);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 16.5px;
+    font-weight: 600;
+    color: var(--title);
+    margin: 34px 0 10px;
+  }
+
+  h4 {
+    font-family: var(--font-display);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--title);
+    margin: 22px 0 6px;
+  }
+
+  p { margin: 0 0 14px; max-width: 68ch; }
+  section > p, section > ol, section > ul { max-width: 68ch; }
+
+  .intro { color: var(--text); font-size: 15.5px; }
+
+  /* ---------- steps ---------- */
+
+  ol.steps {
+    list-style: none;
+    counter-reset: step;
+    margin: 0 0 8px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  ol.steps > li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  ol.steps > li::before {
+    content: counter(step);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 999px;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    margin-top: 1px;
+  }
+
+  ol.steps > li > *:first-child { margin-top: 0; }
+  ol.steps > li > *:last-child { margin-bottom: 0; }
+
+  ul.plain {
+    margin: 0 0 14px;
+    padding-left: 20px;
+  }
+
+  ul.plain li { margin-bottom: 6px; }
+
+  /* ---------- ui chips ---------- */
+
+  .ui {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: .92em;
+    color: var(--title);
+    background: var(--surface-2);
+    border: 1px solid var(--stroke);
+    border-radius: 4px;
+    padding: .5px 5px;
+    white-space: nowrap;
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+    font-size: .82em;
+    font-weight: 600;
+    color: var(--title);
+    background: var(--surface);
+    border: 1px solid var(--stroke-strong);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 1px 6px;
+    white-space: nowrap;
+  }
+
+  .field {
+    font-family: var(--font-mono);
+    font-size: .86em;
+    color: var(--accent-ink);
+  }
+
+  /* ---------- callouts ---------- */
+
+  .note {
+    border-left: 3px solid var(--link);
+    background: var(--link-soft);
+    padding: 12px 16px;
+    margin: 18px 0;
+    border-radius: 0 6px 6px 0;
+    max-width: 68ch;
+  }
+
+  .note.warn { border-color: var(--warn); background: var(--warn-soft); }
+  .note.rule { border-color: var(--danger); background: var(--danger-soft); }
+  .note.ok { border-color: var(--ok); background: var(--ok-soft); }
+
+  .note > *:first-child { margin-top: 0; }
+  .note > *:last-child { margin-bottom: 0; }
+
+  .note b {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--title);
+  }
+
+  /* ---------- tables ---------- */
+
+  .table-wrap {
+    overflow-x: auto;
+    margin: 18px 0;
+    border: 1px solid var(--stroke);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--stroke);
+    vertical-align: top;
+  }
+
+  thead th {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--label);
+    background: var(--surface-2);
+    white-space: nowrap;
+  }
+
+  tbody tr:last-child td { border-bottom: 0; }
+
+  td.k { white-space: nowrap; }
+  td.num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- misc ---------- */
+
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin: 18px 0;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--stroke);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+
+  .panel h4 { margin-top: 0; }
+  .panel > *:last-child { margin-bottom: 0; }
+  .panel ul.plain { padding-left: 18px; }
+
+  footer.end {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 24px 56px;
+    border-top: 1px solid var(--stroke);
+    font-size: 13px;
+    color: var(--label);
+  }
+
+  footer.end p { max-width: 68ch; }
+
+  @media (max-width: 900px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+    }
+    nav.index {
+      position: static;
+      padding-top: 32px;
+      border-bottom: 1px solid var(--stroke);
+      padding-bottom: 24px;
+    }
+    nav.index ol {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 2px;
+    }
+    main { padding-top: 8px; }
+  }
+
+  @media (max-width: 480px) {
+    .masthead-inner { padding: 32px 16px 28px; }
+    .layout { padding: 0 16px 72px; }
+    footer.end { padding: 24px 16px 48px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  @media print {
+    nav.index { display: none; }
+    .layout { display: block; padding: 0; }
+    section { break-inside: auto; page-break-inside: auto; }
+  }
+</style>
+
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="eyebrow">Nexaas · Ponto de venda</p>
+    <h1>Manual do PDV Desktop</h1>
+    <p class="lede">
+      Como operar o PDV Desktop no dia a dia da loja: do primeiro acesso ao
+      fechamento do caixa, com as regras que bloqueiam cada ação e o que fazer
+      quando uma ação fica bloqueada.
+    </p>
+    <div class="meta">
+      <span>Escopo: <b>aplicação desktop</b> (Electron + backend local)</span>
+      <span>Público: <b>operador de caixa, vendedor e gerente de loja</b></span>
+      <span>Revisão: <b>22/09/2026 · código atual</b></span>
+      <span>Base técnica: <b>commit 9a9e9ca8</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="index" aria-label="Índice do manual">
+    <h2>Índice</h2>
+    <ol>
+      <li><a href="#s1"><i>01</i><span>Primeiro acesso</span></a></li>
+      <li><a href="#s2"><i>02</i><span>Tela inicial e menu</span></a></li>
+      <li><a href="#s3"><i>03</i><span>Caixa</span></a></li>
+      <li><a href="#s4"><i>04</i><span>Montar a venda</span></a></li>
+      <li><a href="#s5"><i>05</i><span>Descontos e promoções</span></a></li>
+      <li><a href="#s6"><i>06</i><span>Troca e vale-troca</span></a></li>
+      <li><a href="#s7"><i>07</i><span>Pagamento</span></a></li>
+      <li><a href="#s8"><i>08</i><span>Nota fiscal e comprovantes</span></a></li>
+      <li><a href="#s9"><i>09</i><span>Vendas realizadas</span></a></li>
+      <li><a href="#s10"><i>10</i><span>Vendas salvas</span></a></li>
+      <li><a href="#s11"><i>11</i><span>Pedidos para retirada</span></a></li>
+      <li><a href="#s12"><i>12</i><span>Configurações</span></a></li>
+      <li><a href="#s13"><i>13</i><span>Quando algo trava</span></a></li>
+      <li><a href="#s14"><i>14</i><span>Atalhos de teclado</span></a></li>
+      <li><a href="#s15"><i>15</i><span>O que roda por trás</span></a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <!-- ================= 1 ================= -->
+    <section id="s1">
+      <div class="sec-head">
+        <span class="sec-num">01</span>
+        <h2>Primeiro acesso</h2>
+      </div>
+      <p class="intro">
+        O caminho varia conforme a conta e a máquina. O PDV pula as escolhas
+        que já consegue resolver sozinho e guarda a organização e o terminal
+        vinculados ao computador.
+      </p>
+
+      <ol class="steps">
+        <li>
+          <div>
+            <h4>Acesse sua conta</h4>
+            <p>
+              Informe <span class="field">E-mail</span> e
+              <span class="field">Senha</span> e clique em
+              <span class="ui">Acessar</span>. São as mesmas credenciais do
+              Nexaas. Se os dados não forem aceitos, use
+              <span class="ui">Esqueceu sua senha?</span> para recuperar.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Selecione a sua loja</h4>
+            <p>
+              A tela lista as lojas da sua conta, separadas nas abas
+              <span class="ui">Homologação</span> e
+              <span class="ui">Produção</span>. Lojas em que seu usuário não
+              tem permissão aparecem marcadas como
+              <span class="ui">Sem acesso</span> e não podem ser escolhidas.
+            </p>
+            <div class="note rule">
+              <p>
+                <b>Esta etapa pode não aparecer.</b> Se houver somente uma
+                organização acessível, o PDV segue automaticamente. Com mais
+                de uma, confirme também se está em
+                <span class="ui">Homologação</span> ou
+                <span class="ui">Produção</span> antes de escolher.
+              </p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Vincule a um terminal</h4>
+            <p>
+              O terminal identifica este computador na loja. Só ficam
+              disponíveis terminais livres e com série fiscal cadastrada. Se
+              esta máquina já for reconhecida, o vínculo é recuperado sem
+              pedir nova escolha. Lista vazia significa que é necessário
+              liberar ou cadastrar um terminal no Nexaas.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Espere a sincronização</h4>
+            <p>
+              O PDV prepara os dados locais de
+              <span class="ui">Produtos</span>,
+              <span class="ui">Clientes</span> e
+              <span class="ui">Configurações</span>. A carga completa é
+              obrigatória no primeiro vínculo; nos acessos seguintes a
+              atualização pode ocorrer em segundo plano.
+            </p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ================= 2 ================= -->
+    <section id="s2">
+      <div class="sec-head">
+        <span class="sec-num">02</span>
+        <h2>Tela inicial e menu</h2>
+      </div>
+      <p class="intro">
+        O menu fica na lateral esquerda, recolhido, e expande ao passar o
+        mouse. Cada destino tem uma tecla de função — é por elas que a operação
+        anda rápido no balcão.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Tecla</th><th>Destino</th><th>Para quê</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k"><kbd>F1</kbd></td><td>Início</td><td>Estado do caixa e início de venda</td></tr>
+            <tr><td class="k"><kbd>F2</kbd></td><td>Vendas realizadas</td><td>Histórico, nota fiscal, cancelamento e devolução</td></tr>
+            <tr><td class="k"><kbd>F3</kbd></td><td>Vendas salvas</td><td>Carrinhos guardados; aparece somente quando o recurso está habilitado</td></tr>
+            <tr><td class="k"><kbd>F6</kbd></td><td>Retiradas</td><td>Pedidos para retirar na loja</td></tr>
+            <tr><td class="k"><kbd>F7</kbd></td><td>Caixa</td><td>Abertura, sangria, entrada, balanço e fechamento</td></tr>
+            <tr><td class="k"><kbd>F8</kbd></td><td>Configurações</td><td>Loja, vendas, pagamento e periféricos</td></tr>
+            <tr><td class="k"><kbd>F9</kbd></td><td>Central de ajuda</td><td>Abre a base de conhecimento no navegador</td></tr>
+            <tr><td class="k"><kbd>Del</kbd></td><td>Sair</td><td>Encerra a sessão do usuário</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <p>
+          <b>Com um modal aberto, o menu fica inerte.</b> É proposital: os
+          atalhos de navegação não respondem enquanto uma janela está aberta
+          sobre a tela, para não trocar de página no meio de um fluxo.
+        </p>
+      </div>
+
+      <h3>O que a tela Início mostra</h3>
+      <ul class="plain">
+        <li>
+          <b>Cartão do caixa</b> — <span class="ui">Caixa aberto</span> ou
+          <span class="ui">Caixa fechado</span>, com quem abriu e quando
+          ("Aberto em {data} por {vendedor}"). Dali saem
+          <span class="ui">Abrir caixa</span> (<kbd>CTRL + Enter</kbd>, quando
+          fechado) ou <span class="ui">Acessar caixa</span>
+          (<kbd>F7</kbd>, quando aberto).
+        </li>
+        <li>
+          <b>Iniciar nova venda</b> — abre um carrinho novo.
+        </li>
+        <li>
+          <b>Continuar venda</b> — aparece quando já existe um carrinho em
+          andamento neste terminal; na tela inicial, <kbd>CTRL + Enter</kbd>
+          leva a ele. O atalho global <kbd>CTRL + 1</kbd> também retoma a
+          venda enquanto o menu lateral está disponível.
+        </li>
+        <li>
+          <b>PinPad</b> — acesso direto a
+          <span class="ui">Configurar</span> (<kbd>F10</kbd>) e
+          <span class="ui">Opções TEF</span> (<kbd>CTRL + O</kbd>).
+          <b>A tela inicial não mostra status nem impressoras.</b> Os estados
+          da impressora térmica, da impressora A4 e do PinPad ficam em
+          <span class="ui">Configurações → Periféricos</span>.
+        </li>
+        <li>
+          <b>Aviso de rede</b> — <span class="ui">Você está offline</span>
+          aparece no topo quando a máquina perde a conexão. Operações que
+          dependem do servidor, como aplicar promoções, cancelar ou devolver,
+          podem ficar indisponíveis; o PDV preserva dados locais para
+          sincronizar quando a conexão voltar.
+        </li>
+      </ul>
+    </section>
+
+    <!-- ================= 3 ================= -->
+    <section id="s3">
+      <div class="sec-head">
+        <span class="sec-num">03</span>
+        <h2>Caixa</h2>
+        <span class="sec-num"><kbd>F7</kbd></span>
+      </div>
+      <p class="intro">
+        O caixa é o primeiro ato do dia e o último. Sem ele aberto, a maior
+        parte do PDV fica bloqueada.
+      </p>
+
+      <div class="note rule">
+        <p><b>Três bloqueios que o PDV informa em texto:</b></p>
+        <ul class="plain">
+          <li>"É necessário estar com o caixa aberto para realizar essa ação"</li>
+          <li>"O caixa deste terminal está aberto em nome de outro usuário"</li>
+          <li>"O caixa deste terminal foi aberto em um dia anterior. Feche-o para continuar"</li>
+        </ul>
+        <p>
+          Os três se referem ao caixa <b>deste terminal</b>: o controle é por
+          caixa físico, não por loja. Outro caixa da mesma loja pode estar
+          aberto sem afetar este.
+        </p>
+      </div>
+
+      <h3>Abrir</h3>
+      <p>
+        Informe o <span class="field">Valor de abertura</span> — o dinheiro que
+        está na gaveta. Quando a loja usa abertura automática, o PDV repete o
+        valor do caixa anterior e só pede confirmação. O campo recusa valores
+        menores que o fechamento anterior
+        (<span class="ui">Não pode ser menor que o caixa anterior</span>).
+      </p>
+
+      <h3>Movimentar durante o dia</h3>
+      <div class="cols">
+        <div class="panel">
+          <h4>Entrada <kbd>CTRL + E</kbd></h4>
+          <p>
+            Dinheiro que <em>entra</em> fora de uma venda (troco reforçado,
+            por exemplo). Pede <span class="field">Valor</span> e
+            <span class="field">Motivo</span>.
+          </p>
+        </div>
+        <div class="panel">
+          <h4>Sangria <kbd>CTRL + S</kbd></h4>
+          <p>
+            Dinheiro que <em>sai</em> do caixa para o cofre ou banco. Mesmos
+            campos: <span class="field">Valor</span> e
+            <span class="field">Motivo</span>.
+          </p>
+        </div>
+      </div>
+      <p>
+        As duas podem exigir senha gerencial conforme a configuração recebida
+        pela loja. Clicar em uma linha de movimentação
+        abre <span class="ui">Detalhes da transação</span>, com tipo, valor,
+        motivo, responsável e o ID da venda quando houver.
+      </p>
+
+      <h3>O resumo do caixa</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Linha</th><th>O que entra nela</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">Abertura de caixa</td><td>O valor informado na abertura</td></tr>
+            <tr><td class="k">Vendas em dinheiro</td><td>Só a parcela paga em espécie</td></tr>
+            <tr><td class="k">Entradas</td><td>Aportes manuais</td></tr>
+            <tr><td class="k">Saídas/Sangrias</td><td>Retiradas manuais</td></tr>
+            <tr><td class="k">Dinheiro em caixa</td><td>O que deve estar fisicamente na gaveta</td></tr>
+            <tr><td class="k">Saldo por método</td><td>Dinheiro, Pix, Crédito, Débito — separados</td></tr>
+            <tr><td class="k">Cancelamentos/Devoluções</td><td>Estornos do período</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Balanço</h3>
+      <p>
+        <span class="ui">Emitir balanço</span> (<kbd>CTRL + I</kbd>) imprime o fechamento na
+        impressora térmica. <span class="ui">Emitir balanço por data</span>
+        permite escolher um caixa anterior pela data e pelo horário
+        (<span class="ui">Caixa {id} - {abertura} - {fechamento}</span>) e
+        reimprimir. Pelo mesmo modal dá para enviar por e-mail — para o seu
+        endereço, para os e-mails de gerentes, ou ambos.
+      </p>
+
+      <h3>Fechar</h3>
+      <ul class="plain">
+        <li>
+          Se houver vendas sem nota emitida, o PDV avisa antes: "você possui
+          vendas sem emissão fiscal, é recomendável corrigi-las antes de fechar
+          o caixa", com o botão <span class="ui">Ir para vendas</span>. É um
+          aviso, não um bloqueio — mas resolver depois é mais caro.
+        </li>
+        <li>
+          Se o caixa pertence a outro usuário, o fechamento pode exigir
+          <span class="ui">Selecionar gerente</span> e senha, conforme a regra
+          da organização.
+        </li>
+        <li>
+          Fechado o caixa, os valores e transações não podem mais ser
+          alterados. O PDV oferece <span class="ui">Emitir balanço</span> e
+          <span class="ui">Enviar por e-mail</span> logo em seguida.
+        </li>
+        <li>
+          Ao sair pelo menu com o caixa aberto, o PDV pergunta se você quer
+          fechá-lo antes — dá para <span class="ui">Sair sem fechar</span>.
+        </li>
+      </ul>
+    </section>
+
+    <!-- ================= 4 ================= -->
+    <section id="s4">
+      <div class="sec-head">
+        <span class="sec-num">04</span>
+        <h2>Montar a venda</h2>
+      </div>
+      <p class="intro">
+        O carrinho é a tela central do PDV: busca em cima, itens no meio,
+        totais embaixo e informações de vendedor, cliente, descontos e troca
+        na lateral direita.
+      </p>
+
+      <h3>Abrir o carrinho</h3>
+      <ol class="steps">
+        <li>
+          <div>
+            <p>
+              Em <span class="ui">Início</span>, clique em
+              <span class="ui">Iniciar nova venda</span>.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p>
+              Se a loja exige vendedor, aparece
+              <span class="ui">Iniciar venda</span> com
+              <span class="ui">Selecionar vendedor</span>. Escolha e confirme
+              em <span class="ui">Continuar</span>.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p>
+              Conforme a configuração, o PDV pede o cliente já nesse momento —
+              obrigatório, opcional ou nunca. No modo opcional existe o botão
+              <span class="ui">Continuar sem cliente</span>
+              (<kbd>CTRL + K</kbd>); <span class="ui">Novo cliente</span> é
+              <kbd>CTRL + L</kbd>.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <h3>Adicionar produtos</h3>
+      <p>
+        O campo do topo aceita as duas formas —
+        <em>"Buscar produto ou ler código de barras"</em>. O leitor preenche e
+        confirma sozinho. Produto inexistente responde
+        <span class="ui">Produto não encontrado</span>.
+      </p>
+      <p>
+        Cada linha do carrinho tem um menu <span class="ui">Opções</span>:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Opção</th><th>Efeito</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">Ver detalhes do produto</td><td>Abre o painel com imagens, preço e estoque</td></tr>
+            <tr><td class="k">Aplicar desconto no item</td><td>Desconto só naquela linha (ver <a href="#s5">seção 5</a>)</td></tr>
+            <tr><td class="k">Trocar</td><td>Aparece separadamente em brindes com escolha e permite selecionar outro brinde</td></tr>
+            <tr><td class="k">Lixeira</td><td>Remove a linha do carrinho</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Quando o carrinho reclama</h3>
+      <ul class="plain">
+        <li>
+          <b>Sem preço</b> — o item entra marcado como
+          <span class="ui">Sem preço</span> e o PDV não deixa avançar:
+          "antes de avançar para o pagamento, é preciso remover os itens sem
+          preço no carrinho".
+        </li>
+        <li>
+          <b>Estoque indisponível</b> — a quantidade é recusada com o nome do
+          item. Em kit, o bloqueio vem de um componente sem estoque.
+        </li>
+        <li>
+          <b>Ruptura de estoque</b> — itens que ficaram sem saldo enquanto o
+          carrinho estava aberto são listados para remoção em bloco
+          (<span class="ui">Remover e revisar carrinho</span>).
+        </li>
+        <li>
+          <b>Limite de venda</b> — acima do valor configurado, o PDV exige
+          identificar o cliente na nota. Dá para selecionar um cliente,
+          cadastrar um novo, ou usar
+          <span class="ui">Adicionar apenas o CPF na nota</span> e seguir com
+          <span class="ui">Avançar com CPF na nota</span>.
+        </li>
+        <li>
+          <b>Total zerado</b> — "não é possível finalizar uma venda com o valor
+          zerado ou negativo". Ajuste os descontos.
+        </li>
+      </ul>
+
+      <h3>Informações laterais</h3>
+      <p>
+        A lateral permanece visível e reúne
+        <span class="ui">Vendedor</span> (<kbd>CTRL + 1</kbd>),
+        <span class="ui">Cliente</span> (<kbd>CTRL + L</kbd>),
+        <span class="ui">CPF na nota</span> (<kbd>F4</kbd>),
+        <span class="ui">Troca</span>,
+        <span class="ui">Descontos</span> e os totais. O cliente selecionado
+        pode ser editado com <kbd>CTRL + E</kbd>.
+      </p>
+      <p>
+        Pedidos para retirada podem ser puxados para dentro do carrinho por
+        <kbd>CTRL + M</kbd> (ver <a href="#s11">seção 11</a>).
+      </p>
+
+      <h3>Salvar ou cancelar</h3>
+      <ul class="plain">
+        <li>
+          <b>Salvar</b> (<kbd>F2</kbd>) — guarda o carrinho em
+          <span class="ui">Vendas salvas</span>. O aviso é importante:
+          preços e promoções são recalculados ao resgatar a venda, e pedidos
+          de retirada <em>não</em> são salvos junto. A ação só existe quando
+          <span class="ui">Vendas salvas</span> está habilitado para a loja.
+        </li>
+        <li>
+          <b>Cancelar venda</b> (<kbd>Delete</kbd>) — descarta o carrinho.
+        </li>
+        <li>
+          <b>Pagamento</b> (<kbd>CTRL + Enter</kbd>) — avança para a
+          <a href="#s7">seção 7</a>.
+        </li>
+      </ul>
+    </section>
+
+    <!-- ================= 5 ================= -->
+    <section id="s5">
+      <div class="sec-head">
+        <span class="sec-num">05</span>
+        <h2>Descontos e promoções</h2>
+      </div>
+      <p class="intro">
+        Existem três origens de desconto, e elas aparecem separadas no painel:
+        a promoção automática (calculada pelo motor de promoções), a promoção
+        aplicada pelo operador e o desconto manual.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Selo</th><th>Origem</th><th>Quem decide</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">Automático</td><td>Promoção que o motor aplicou sozinho ao carrinho</td><td>Regra cadastrada no OMS</td></tr>
+            <tr><td class="k">Manual</td><td><span class="ui">Desconto na venda</span> ou <span class="ui">Desconto no item</span></td><td>Operador, dentro do teto permitido</td></tr>
+            <tr><td class="k">Brinde</td><td>Item dado pela promoção</td><td>Regra cadastrada, com escolha do operador</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Aplicar</h3>
+      <ul class="plain">
+        <li>
+          <span class="ui">Adicionar desconto</span> (<kbd>CTRL + P</kbd>)
+          reúne promoções opcionais e desconto manual. Vazio significa que não
+          há opção disponível para o carrinho, não uma falha.
+        </li>
+        <li>
+          <span class="ui">Desconto na venda</span> e
+          <span class="ui">Desconto no item</span> aceitam valor em reais ou
+          percentual; o modal mostra o teto
+          (<span class="ui">Máximo permitido</span>) e recusa acima dele.
+        </li>
+        <li>
+          Promoções marcadas <span class="ui">Exige autorização gerencial</span>
+          pedem a senha do gerente na hora de aplicar. As marcadas
+          <span class="ui">Não acumula</span> excluem as demais.
+        </li>
+        <li>
+          Brindes: <span class="ui">Selecionar brinde</span> — "você pode
+          selecionar um brinde de cada promoção". Brinde sem saldo aparece como
+          <span class="ui">Sem estoque</span>, e se acabar durante a venda o PDV
+          pede outro.
+        </li>
+      </ul>
+
+      <div class="note warn">
+        <p>
+          <b>Offline, as promoções não recalculam.</b> Ao mexer no carrinho sem
+          conexão, o PDV pergunta:
+          <span class="ui">Manter carrinho como está</span> ou
+          <span class="ui">Remover promoções e continuar</span>. Manter preserva
+          os descontos já aplicados; remover limpa tudo e segue com preço cheio.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= 6 ================= -->
+    <section id="s6">
+      <div class="sec-head">
+        <span class="sec-num">06</span>
+        <h2>Troca e vale-troca</h2>
+      </div>
+      <p class="intro">
+        A troca acontece dentro de uma venda nova: o cliente devolve algo, o
+        valor vira crédito, e esse crédito abate os itens novos. O crédito é
+        materializado como <b>vale-troca</b>.
+      </p>
+
+      <ol class="steps">
+        <li>
+          <div>
+            <p>
+              Na lateral, abra <span class="ui">Troca</span> e clique em
+              <span class="ui">Realizar troca</span>
+              (<kbd>CTRL + T</kbd>).
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p>Escolha como localizar a venda de origem:</p>
+            <ul class="plain">
+              <li><span class="ui">Cupom de troca</span> (<kbd>CTRL + 1</kbd>) — pelo número impresso</li>
+              <li><span class="ui">Nº da Nota Fiscal</span> (<kbd>CTRL + 2</kbd>) — pela NF da compra</li>
+              <li><span class="ui">Troca por cliente</span> (<kbd>CTRL + 3</kbd>) — pelo cadastro de quem comprou</li>
+              <li>
+                Se nada funcionar, o link
+                <span class="ui">Buscar por produto</span> procura pelo item
+              </li>
+            </ul>
+            <p>
+              Na busca por cupom dá para alternar entre
+              <span class="ui">Vendas desta loja</span> e
+              <span class="ui">Todas as vendas</span>. Cada cupom mostra valor,
+              data, cliente, loja e até quando vale.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p>
+              Selecione os itens a devolver, monte o carrinho com os itens
+              novos e confirme em <span class="ui">Efetivar troca</span> →
+              <span class="ui">Gerar vale-troca</span>.
+            </p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="note rule">
+        <p>
+          <b>Duas regras que geram atrito no balcão:</b>
+        </p>
+        <ul class="plain">
+          <li>
+            <b>Cliente é obrigatório.</b> Com item em troca, a venda exige
+            cliente vinculado para emitir a nota.
+          </li>
+          <li>
+            <b>A sobra se perde.</b> Se o devolvido vale mais que o comprado,
+            o PDV avisa em <span class="ui">Valor não utilizado</span> —
+            "o valor excedente será perdido". A saída é o cliente levar mais
+            itens até alcançar o valor.
+          </li>
+        </ul>
+      </div>
+
+      <p>
+        Quando a troca cobre tudo, o PDV informa que nenhum pagamento é
+        necessário. E, se a loja ativou
+        <span class="ui">Troca apenas para itens de mesmo valor</span>, cada
+        cupom precisa encontrar no carrinho uma unidade de mesmo valor e, se
+        houver, a mesma pontuação de integração.
+      </p>
+    </section>
+
+    <!-- ================= 7 ================= -->
+    <section id="s7">
+      <div class="sec-head">
+        <span class="sec-num">07</span>
+        <h2>Pagamento</h2>
+      </div>
+      <p class="intro">
+        A tela de pagamento aceita quantos métodos forem necessários até zerar
+        o <span class="ui">Restante</span>. Cada pagamento é confirmado
+        individualmente antes de a venda ser finalizada.
+      </p>
+
+      <h3>Métodos</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Método</th><th>O que pedir / observar</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">Dinheiro</td><td>Valor recebido; o PDV calcula o <span class="ui">Troco</span></td></tr>
+            <tr><td class="k">Crédito</td><td>Exige <span class="ui">Selecione as parcelas</span> — as parcelas vêm do cadastro</td></tr>
+            <tr><td class="k">Débito</td><td>Processado pelo TEF no Pin Pad</td></tr>
+            <tr><td class="k">Pix</td><td>QR Code na tela, com prazo para pagamento</td></tr>
+            <tr><td class="k">Vale-troca</td><td>Exige cliente identificado; a sobra do vale se perde</td></tr>
+            <tr><td class="k">Link de pagamento</td><td>O link só é gerado <em>depois</em> de finalizar a venda</td></tr>
+            <tr><td class="k">Vale alimentação / refeição</td><td>Conforme habilitado no terminal</td></tr>
+            <tr><td class="k">Pagamento externo</td><td>Registra um pagamento já feito fora do PDV (ver abaixo)</td></tr>
+            <tr><td class="k">Pagar na retirada</td><td>Exige cliente e não pode ser usado em carrinho que já contém pedido de retirada</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        A lista muda por organização. A aba
+        <a href="#s12">Configurações → Pagamento</a> apenas mostra os métodos
+        recebidos; ela não habilita nem desabilita métodos no PDV.
+      </p>
+
+      <h3>Cartão pelo TEF</h3>
+      <p>
+        O PDV conduz a operação pelo Pin Pad e mostra cada estágio:
+        <span class="ui">Aguardando TEF…</span> →
+        <span class="ui">Insira ou aproxime o cartão</span> →
+        <span class="ui">Solicite ao cliente para digitar sua senha</span> →
+        <span class="ui">Pagamento confirmado</span>. No fim, oferece
+        <span class="ui">Imprimir via loja</span> e
+        <span class="ui">Imprimir via cliente</span>.
+      </p>
+      <div class="note warn">
+        <p>
+          <b>Se o TEF não responde</b>, Crédito, Débito e Pix continuam
+          visíveis. Ao selecionar um deles, o PDV testa a conexão; se falhar,
+          mostra <span class="ui">O TEF está desconectado</span> e volta à
+          escolha do método. Verifique cabo e configuração em
+          <a href="#s12">Configurações → Periféricos</a> antes de tentar de
+          novo.
+        </p>
+      </div>
+
+      <h3>Pagamento externo</h3>
+      <p>
+        Serve para registrar um pagamento que aconteceu fora do PDV. Os campos
+        mudam conforme o tipo: cartão pede bandeira, parcelas, adquirente,
+        autorização e, quando houver, NSU; Pix pede o CPF/CNPJ do pagador;
+        transferência e depósito registram autenticação e documento; a opção
+        <span class="ui">Outro</span> pede uma descrição.
+      </p>
+
+      <h3>Corrigir um pagamento</h3>
+      <ul class="plain">
+        <li>
+          <span class="ui">Remover</span> — retira pagamentos que não foram
+          processados pelo TEF.
+        </li>
+        <li>
+          Pagamentos TEF não oferecem estorno nessa tela; o menu disponível
+          permite consultar/imprimir as vias do comprovante.
+        </li>
+        <li>
+          <b>Voltar ao carrinho não é livre.</b> Com pagamento já realizado, o
+          PDV bloqueia a volta. A exceção é o fluxo composto apenas por
+          vale-troca: ao confirmar a volta, o pagamento e os itens de troca são
+          removidos para o carrinho ser revisto.
+        </li>
+      </ul>
+
+      <p>
+        Com o restante zerado, <span class="ui">Finalizar Venda</span>
+        (<kbd>CTRL + Enter</kbd>) encerra. <kbd>CTRL + F</kbd> abre a seleção
+        de pagamento e <kbd>Delete</kbd> cancela a venda inteira.
+      </p>
+    </section>
+
+    <!-- ================= 8 ================= -->
+    <section id="s8">
+      <div class="sec-head">
+        <span class="sec-num">08</span>
+        <h2>Nota fiscal e comprovantes</h2>
+      </div>
+      <p class="intro">
+        Finalizar a venda e emitir o documento fiscal são passos distintos.
+        Em venda local, o PDV solicita NF-e para cliente com CNPJ e NFC-e nos
+        demais casos, acompanhando o resultado na tela.
+      </p>
+
+      <h3>O que a tela diz</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Mensagem</th><th>Significado</th><th>O que fazer</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="k">Aguardando a emissão…</td>
+              <td>A nota está sendo processada</td>
+              <td>Esperar; o comprovante imprime ao concluir</td>
+            </tr>
+            <tr>
+              <td class="k">NFC-e #n emitida</td>
+              <td>Autorizada pela SEFAZ</td>
+              <td>Imprimir ou enviar por e-mail</td>
+            </tr>
+            <tr>
+              <td class="k">Emitida em contingência</td>
+              <td>Saiu sem a SEFAZ no ar</td>
+              <td>Nada — será sincronizada quando a conexão voltar</td>
+            </tr>
+            <tr>
+              <td class="k">Erro na emissão fiscal</td>
+              <td>A nota foi recusada</td>
+              <td>Corrigir a causa e usar <span class="ui">Emitir NF</span> no detalhe da venda</td>
+            </tr>
+            <tr>
+              <td class="k">Está demorando mais que o esperado</td>
+              <td>Passou do tempo de espera, mas continua em andamento</td>
+              <td>Seguir atendendo; acompanhar pelo detalhe da venda</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note">
+        <p>
+          <b>Impressão automática.</b> Com a opção
+          <span class="ui">Imprimir NF automaticamente</span> ligada, o
+          operador não precisa clicar: o comprovante vai para a impressora
+          assim que a nota é autorizada.
+        </p>
+      </div>
+
+      <h3>Outras saídas da tela de venda finalizada</h3>
+      <ul class="plain">
+        <li>
+          <b>Enviar por e-mail</b> — se a nota ainda não estiver pronta, o PDV
+          guarda o pedido: "o e-mail será enviado automaticamente assim que ela
+          ficar pronta". Não é preciso voltar depois.
+        </li>
+        <li>
+          <b>Imprimir cupons de troca</b> — só fica disponível depois da
+          sincronização com o OMS; até lá a tela mostra
+          <span class="ui">Gerando cupons de troca</span>.
+        </li>
+        <li>
+          <b>Venda para retirada</b> — pedido somente para retirada usa o
+          documento do OMS, sem nova nota local; quando o pagamento será feito
+          na loja, o PDV oferece comprovante não fiscal. Carrinho misto mantém
+          emissão local para os produtos vendidos no PDV.
+        </li>
+        <li>
+          <b>Acessar venda</b> leva ao detalhe;
+          <b>Voltar ao início</b> libera o caixa para o próximo cliente.
+        </li>
+      </ul>
+    </section>
+
+    <!-- ================= 9 ================= -->
+    <section id="s9">
+      <div class="sec-head">
+        <span class="sec-num">09</span>
+        <h2>Vendas realizadas</h2>
+        <span class="sec-num"><kbd>F2</kbd></span>
+      </div>
+      <p class="intro">
+        Todo o pós-venda mora aqui: reimprimir, reemitir nota, cancelar e
+        devolver.
+      </p>
+
+      <h3>Encontrar</h3>
+      <p>
+        A busca aceita o número da venda ou o número da NF. Os filtros cobrem
+        <span class="ui">Hoje</span>, <span class="ui">Período</span>,
+        <span class="ui">Status</span>,
+        <span class="ui">Modalidades</span> (venda local, entrega em casa,
+        retirar na loja), <span class="ui">Vendedor</span> e
+        <span class="ui">Cliente</span>.
+      </p>
+      <p>
+        Além dos status normais (Finalizada, Cancelada, Pagto. pendente,
+        Devolvida total ou parcialmente), o filtro tem três recortes úteis para
+        conferência:
+        <span class="ui">Erro ao emitir NF</span>,
+        <span class="ui">Nota emitida offline</span> e
+        <span class="ui">Venda não sincronizada</span>. Quando há vendas
+        pendentes de sincronização, a lista avisa no topo.
+      </p>
+
+      <h3>Cancelar</h3>
+      <div class="note rule">
+        <p>
+          <b>A janela é de 30 minutos — mas nem sempre.</b> O prazo conta a
+          partir da <b>autorização do documento fiscal</b>, não do horário da
+          venda. Sem documento autorizado, esse limite fiscal não é aplicado.
+          Depois do prazo, o cancelamento pelo PDV fica indisponível.
+        </p>
+      </div>
+      <p>
+        Dois outros bloqueios são temporários e o operador resolve: estar
+        <b>offline</b> e estar com o caixa fechado, aberto por outro usuário ou
+        desde um dia anterior. O botão fica desabilitado com a explicação.
+      </p>
+      <p>
+        O cancelamento pede um <span class="ui">Motivo do cancelamento</span>
+        (arrependimento de compra, desacordo comercial, falha na emissão
+        fiscal, falta de estoque, problema na entrega, produto avariado,
+        troca). Se a venda teve pagamento em dinheiro, o PDV pergunta se deve
+        remover esse valor do saldo do caixa — responda conforme o dinheiro
+        tenha saído ou não da gaveta. A nota fiscal é cancelada junto.
+      </p>
+
+      <h3>Devolver</h3>
+      <p>
+        Diferente do cancelamento: a devolução emite <b>NF de devolução</b> e
+        por isso exige nota emitida na venda original
+        (<span class="ui">Não é possível devolver uma venda sem nota
+        emitida</span>) e um cliente com cadastro completo — CPF/CNPJ e
+        endereço de cobrança. O modal aponta o que falta e oferece
+        <span class="ui">Preencher</span>.
+      </p>
+      <p>
+        Dá para devolver tudo (<span class="ui">Devolver todos os
+        produtos</span>) ou escolher a quantidade por item. A venda passa a
+        constar como <span class="ui">Totalmente Devolvida</span> ou
+        <span class="ui">Parcialmente Devolvida</span>.
+      </p>
+    </section>
+
+    <!-- ================= 10 ================= -->
+    <section id="s10">
+      <div class="sec-head">
+        <span class="sec-num">10</span>
+        <h2>Vendas salvas</h2>
+        <span class="sec-num"><kbd>F3</kbd></span>
+      </div>
+      <p class="intro">
+        Carrinhos guardados para continuar depois — o cliente que foi buscar
+        outro tamanho, a fila que precisou andar. Esta tela só aparece quando
+        o recurso de vendas em aberto está habilitado para a organização.
+      </p>
+      <ul class="plain">
+        <li>
+          A lista mostra <span class="ui">Terminal</span> e
+          <span class="ui">Salvo em</span>: a venda salva não pertence só ao
+          caixa que a criou, e a coluna diz de onde ela veio.
+        </li>
+        <li>
+          <span class="ui">Continuar venda</span> devolve os itens ao carrinho.
+          Se algum item perdeu estoque nesse meio-tempo, o PDV avisa item a
+          item antes de restaurar. Se outro terminal resgatar primeiro, a venda
+          deixa de estar disponível neste.
+        </li>
+        <li>
+          <span class="ui">Excluir venda</span> descarta o carrinho guardado.
+        </li>
+        <li>
+          Vendas ainda não enviadas à nuvem aparecem como
+          <span class="ui">Não sincronizada</span>.
+        </li>
+      </ul>
+      <div class="note warn">
+        <p>
+          <b>Preços e promoções são recalculados no resgate.</b> Um carrinho
+          salvo ontem pode voltar com outro total hoje, se a promoção mudou.
+          Confira o total com o cliente antes de ir ao pagamento.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= 11 ================= -->
+    <section id="s11">
+      <div class="sec-head">
+        <span class="sec-num">11</span>
+        <h2>Pedidos para retirada</h2>
+        <span class="sec-num"><kbd>F6</kbd></span>
+      </div>
+      <p class="intro">
+        Pedidos feitos em outro canal que o cliente vem buscar na loja. A tela
+        organiza-os em três abas conforme o estágio.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Aba</th><th>Status que caem nela</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="k">Pendentes</td><td>Aguardando pagamento, Faturamento pendente</td></tr>
+            <tr><td class="k">Prontos para retirada</td><td>Pronto para retirada</td></tr>
+            <tr><td class="k">Finalizados</td><td>Entregue, Cancelado, Devolvido (parcial ou total)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Localizar o pedido</h3>
+      <p>
+        Busque por ID ou código, filtre por data, status, cliente e canal de
+        venda. A leitura de QR Code não está disponível na versão atual.
+      </p>
+
+      <h3>Ações</h3>
+      <ul class="plain">
+        <li>
+          <b>Pagar</b> — joga o pedido no carrinho para cobrar (também
+          disponível de dentro da venda, por <kbd>CTRL + M</kbd>). Dá para
+          selecionar vários pedidos em <span class="ui">Aguardando
+          pagamento</span> e pagar juntos. Pedido com
+          <span class="ui">Faturamento pendente</span> não pode ser selecionado
+          para cobrança.
+        </li>
+        <li>
+          <b>Entregar</b> — marca como entregue e registra o operador logado.
+        </li>
+        <li>
+          <b>Cancelar</b> pede motivo. <b>Devolver</b> fica disponível em
+          pedidos prontos ou entregues; o motivo pode ser informado.
+        </li>
+      </ul>
+
+      <div class="note rule">
+        <p>
+          <b>As ações respeitam o caixa.</b> Pagar, entregar, cancelar e
+          devolver exigem caixa aberto pelo usuário atual e na data de hoje.
+          A aba <span class="ui">Pendentes</span> pode não aparecer quando
+          <span class="ui">Pagar na retirada</span> está desabilitado.
+        </p>
+      </div>
+
+      <div class="note">
+        <p>
+          <b>A nota vem do OMS, não do PDV.</b> Em pedido de retirada, o
+          detalhe informa: "a nota será emitida pelo Nexaas OMS e o pedido
+          ficará disponível para retirada". Se a impressão acusar
+          <span class="ui">Nota sem XML disponível para impressão</span>, é
+          sincronização pendente — aguarde e tente de novo.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= 12 ================= -->
+    <section id="s12">
+      <div class="sec-head">
+        <span class="sec-num">12</span>
+        <h2>Configurações</h2>
+        <span class="sec-num"><kbd>F8</kbd></span>
+      </div>
+      <p class="intro">
+        Três abas — <span class="ui">Geral</span>,
+        <span class="ui">Pagamento</span> e
+        <span class="ui">Periféricos</span>. A versão atual concentra aqui
+        identificação, diagnóstico e configuração dos equipamentos locais.
+      </p>
+
+      <h3>Geral</h3>
+      <div class="cols">
+        <div class="panel">
+          <h4>Do terminal</h4>
+          <ul class="plain">
+            <li><b>Tema</b> — claro ou escuro</li>
+            <li><b>Ambiente de emissão fiscal</b> — Produção ou Homologação; exibido somente para consulta</li>
+            <li><b>Versão</b> — mostra se o PDV está atualizado</li>
+            <li><b>Última sincronização</b> — quando catálogo, preços e estoque foram atualizados</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>Dados da organização</h4>
+          <p>
+            Vêm do Nexaas e são somente leitura: terminal, nome fantasia,
+            CNPJ, IE, séries fiscais e endereço. Duas linhas merecem atenção:
+          </p>
+          <ul class="plain">
+            <li><b>Série NF-e</b> (modelo 55) — cadastrada <em>por loja</em></li>
+            <li><b>Série NFC-e</b> (modelo 65) — cadastrada <em>por terminal</em></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <p>
+          <b>Não há edição de regras de venda nesta tela.</b> Opções como pedir
+          vendedor ou cliente, habilitar vendas salvas, impressão automática,
+          estoque e autorizações gerenciais são recebidas pela sincronização,
+          mas as seções de edição não são exibidas no PDV atual.
+        </p>
+      </div>
+
+      <h3>Pagamento</h3>
+      <p>
+        Mostra os métodos aceitos pela organização. A lista é somente
+        informativa nesta versão: habilitação, parcelamento e taxas não são
+        editados por essa aba.
+      </p>
+
+      <h3>Periféricos</h3>
+      <div class="cols">
+        <div class="panel">
+          <h4>Impressora térmica</h4>
+          <p>Mostra nome e estado da impressora escolhida e permite configurar outra impressora instalada.</p>
+        </div>
+        <div class="panel">
+          <h4>Impressora A4</h4>
+          <p>Mostra nome e estado do equipamento usado para documentos em formato A4 e permite configurá-lo.</p>
+        </div>
+        <div class="panel">
+          <h4>TEF e Pin Pad</h4>
+          <p>
+            Mostra estado, identificador do terminal e endereço do SiTef. Em
+            <span class="ui">Configurar</span>, selecione o PinPad, informe o
+            código da empresa e escolha servidor local, outra máquina (IP) ou
+            TLS (token). O estado da conexão é atualizado periodicamente.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 13 ================= -->
+    <section id="s13">
+      <div class="sec-head">
+        <span class="sec-num">13</span>
+        <h2>Quando algo trava</h2>
+      </div>
+      <p class="intro">
+        Os bloqueios do PDV quase sempre explicam a si mesmos no popover do
+        botão desabilitado. Esta tabela reúne os mais frequentes.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Sintoma</th><th>Causa</th><th>Saída</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>"É necessário estar com o caixa aberto"</td>
+              <td>Caixa fechado neste terminal</td>
+              <td>Abrir o caixa (<kbd>F7</kbd>)</td>
+            </tr>
+            <tr>
+              <td>"Caixa aberto em nome de outro usuário"</td>
+              <td>Outro operador abriu este caixa</td>
+              <td>Fechar com senha gerencial, ou entrar com o usuário dele</td>
+            </tr>
+            <tr>
+              <td>"Aberto em um dia anterior"</td>
+              <td>O caixa virou o dia aberto</td>
+              <td>Fechar e abrir de novo</td>
+            </tr>
+            <tr>
+              <td>"O TEF está desconectado" ao escolher Crédito, Débito ou Pix</td>
+              <td>PinPad ou serviço TEF não respondeu ao teste</td>
+              <td>Conferir cabo e configuração em Periféricos; depois escolher o método novamente</td>
+            </tr>
+            <tr>
+              <td>Item marcado "Sem preço"</td>
+              <td>O produto não tem preço para este canal</td>
+              <td>Remover o item; corrigir o preço no OMS</td>
+            </tr>
+            <tr>
+              <td>"Estoque indisponível"</td>
+              <td>Saldo insuficiente para a quantidade</td>
+              <td>Reduzir a quantidade ou trocar o item</td>
+            </tr>
+            <tr>
+              <td>Promoções não recalculam</td>
+              <td>Máquina offline</td>
+              <td>Manter o carrinho como está, ou remover as promoções</td>
+            </tr>
+            <tr>
+              <td>Cancelar desabilitado</td>
+              <td>Offline, caixa incompatível ou prazo fiscal de 30 min vencido</td>
+              <td>Restabelecer a conexão ou regularizar o caixa; prazo vencido exige outro procedimento</td>
+            </tr>
+            <tr>
+              <td>Devolver desabilitado</td>
+              <td>Offline, caixa incompatível ou a venda não tem nota autorizada</td>
+              <td>Restabelecer conexão, regularizar caixa ou emitir a nota pelo detalhe</td>
+            </tr>
+            <tr>
+              <td>"Erro na emissão fiscal"</td>
+              <td>Rejeição da SEFAZ</td>
+              <td>Corrigir a causa e usar <span class="ui">Emitir NF</span> no detalhe</td>
+            </tr>
+            <tr>
+              <td>Cupom de troca não imprime</td>
+              <td>Venda ainda sincronizando com o OMS</td>
+              <td>Aguardar a sincronização; se o prazo da tela terminar, consultar a venda depois</td>
+            </tr>
+            <tr>
+              <td>"Venda não sincronizada"</td>
+              <td>A venda existe local, mas ainda não subiu</td>
+              <td>Restabelecer a conexão; o envio é automático</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ================= 14 ================= -->
+    <section id="s14">
+      <div class="sec-head">
+        <span class="sec-num">14</span>
+        <h2>Atalhos de teclado</h2>
+      </div>
+
+      <h3>Navegação (menu lateral)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tecla</th><th>Ação</th></tr></thead>
+          <tbody>
+            <tr><td class="k"><kbd>F1</kbd></td><td>Início</td></tr>
+            <tr><td class="k"><kbd>F2</kbd></td><td>Vendas realizadas</td></tr>
+            <tr><td class="k"><kbd>F3</kbd></td><td>Vendas salvas</td></tr>
+            <tr><td class="k"><kbd>F6</kbd></td><td>Retiradas</td></tr>
+            <tr><td class="k"><kbd>F7</kbd></td><td>Caixa</td></tr>
+            <tr><td class="k"><kbd>F8</kbd></td><td>Configurações</td></tr>
+            <tr><td class="k"><kbd>F9</kbd></td><td>Central de ajuda</td></tr>
+            <tr><td class="k"><kbd>Del</kbd></td><td>Sair</td></tr>
+            <tr><td class="k"><kbd>CTRL + 1</kbd></td><td>Continuar a venda em andamento</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Dentro das telas</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tecla</th><th>Ação</th><th>Onde</th></tr></thead>
+          <tbody>
+            <tr><td class="k"><kbd>CTRL + Enter</kbd></td><td>Abrir caixa ou continuar a venda, conforme o estado</td><td>Início</td></tr>
+            <tr><td class="k"><kbd>F7</kbd></td><td>Acessar caixa</td><td>Início</td></tr>
+            <tr><td class="k"><kbd>F10</kbd></td><td>Configurar TEF</td><td>Início</td></tr>
+            <tr><td class="k"><kbd>CTRL + O</kbd></td><td>Opções TEF</td><td>Início</td></tr>
+            <tr><td class="k"><kbd>CTRL + E</kbd></td><td>Entrada</td><td>Caixa</td></tr>
+            <tr><td class="k"><kbd>CTRL + S</kbd></td><td>Sangria</td><td>Caixa</td></tr>
+            <tr><td class="k"><kbd>CTRL + I</kbd></td><td>Resumo do caixa</td><td>Caixa</td></tr>
+            <tr><td class="k"><kbd>CTRL + F</kbd></td><td>Fechar caixa</td><td>Caixa</td></tr>
+            <tr><td class="k"><kbd>CTRL + 1</kbd></td><td>Selecionar ou trocar vendedor</td><td>Venda</td></tr>
+            <tr><td class="k"><kbd>F4</kbd></td><td>CPF na nota</td><td>Venda</td></tr>
+            <tr><td class="k"><kbd>CTRL + K</kbd></td><td>Continuar sem cliente</td><td>Venda</td></tr>
+            <tr><td class="k"><kbd>CTRL + L</kbd></td><td>Novo cliente</td><td>Venda</td></tr>
+            <tr><td class="k"><kbd>CTRL + M</kbd></td><td>Pedidos de retirada no carrinho</td><td>Venda</td></tr>
+            <tr><td class="k"><kbd>CTRL + P</kbd></td><td>Adicionar desconto</td><td>Venda</td></tr>
+            <tr><td class="k"><kbd>CTRL + T</kbd></td><td>Realizar troca</td><td>Venda</td></tr>
+            <tr><td class="k"><kbd>F2</kbd></td><td>Salvar venda</td><td>Venda</td></tr>
+            <tr><td class="k"><kbd>Delete</kbd></td><td>Cancelar venda</td><td>Venda e Pagamento</td></tr>
+            <tr><td class="k"><kbd>CTRL + Enter</kbd></td><td>Ir para o pagamento</td><td>Venda</td></tr>
+            <tr><td class="k"><kbd>CTRL + F</kbd></td><td>Adicionar pagamento</td><td>Pagamento</td></tr>
+            <tr><td class="k"><kbd>CTRL + Enter</kbd></td><td>Finalizar venda</td><td>Pagamento</td></tr>
+            <tr><td class="k"><kbd>CTRL + DELETE</kbd></td><td>Cancelar venda</td><td>Detalhe da venda</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note warn">
+        <p>
+          <b>O contexto importa.</b> <kbd>F2</kbd> abre Vendas realizadas no
+          menu, mas salva quando o carrinho está aberto. <kbd>CTRL + 1</kbd>
+          retoma uma venda fora dela e seleciona o vendedor dentro do carrinho.
+          Atalhos globais ficam suspensos enquanto há um modal bloqueante.
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= 15 ================= -->
+    <section id="s15">
+      <div class="sec-head">
+        <span class="sec-num">15</span>
+        <h2>O que roda por trás</h2>
+      </div>
+      <p class="intro">
+        Útil para quem dá suporte à loja — o operador não precisa saber disso,
+        mas ajuda a interpretar o que o PDV diz.
+      </p>
+      <ul class="plain">
+        <li>
+          <b>Há um serviço e um banco locais.</b> O aplicativo conversa com um
+          backend na própria máquina e mantém dados operacionais locais. Isso
+          permite parte do atendimento sem rede, mas ações dependentes da
+          nuvem continuam limitadas.
+        </li>
+        <li>
+          <b>A nuvem é a fonte do catálogo.</b> Produtos, preços, estoque,
+          clientes e configurações descem do Nexaas OMS e são atualizados em
+          segundo plano — o horário fica em
+          <span class="ui">Configurações → Última sincronização</span>.
+        </li>
+        <li>
+          <b>As vendas sobem depois.</b> A venda fecha localmente e é enviada
+          ao OMS em seguida. É por isso que existem os estados
+          <span class="ui">Venda não sincronizada</span> e
+          <span class="ui">Gerando cupons de troca</span>.
+        </li>
+        <li>
+          <b>A emissão fiscal tem rota online e contingência.</b> Normalmente o
+          backend usa o serviço fiscal em nuvem. Se a falha for de conexão e o
+          Agente Omnitax local estiver instalado, configurado e ativo, o PDV
+          pode emitir em contingência e sincronizar depois. Sem esse agente,
+          não há contingência local.
+        </li>
+        <li>
+          <b>Pedidos de retirada são do OMS.</b> O PDV mostra, cobra e entrega;
+          quem fatura e emite a nota desses pedidos é o OMS.
+        </li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<footer class="end">
+  <p>
+    Conteúdo conferido contra a aplicação (rótulos, atalhos e regras de
+    bloqueio). Comportamentos que dependem de configuração da loja estão
+    marcados como tal ao longo do texto.
+  </p>
+</footer>
+
+</body></html>
